@@ -1,6 +1,5 @@
 package com.trustlink.trustlink.analyzer;
 
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +36,7 @@ public class InputAnalyzer {
         if(matches == 2)  return 25;
         return 35;
     }
+
     public int getXssDeduction(String payload){
         long matches = XSS_PATTERNS.stream().filter(p -> p.matcher(payload).find()).count();
         if(matches == 0)  return 0;
@@ -44,6 +44,7 @@ public class InputAnalyzer {
         if(matches == 2)  return 20;
         return 30;
     }
+
     public int getHeaderDeduction(HttpServletRequest request){
         if((request.getHeader("User-Agent") == null || request.getHeader("User-Agent").isEmpty())  || (request.getHeader("Content-Type") == null || request.getHeader("Content-Type").isEmpty())){
             return 10;
@@ -51,11 +52,10 @@ public class InputAnalyzer {
             return 0;
         }
     }
+
     public int getPayloadSizeDeduction(String payload){
         if(payload == null || payload.isEmpty()) return 0;
         if(payload.getBytes().length > 10240) return 10;
         return 0;
     }
-
-
 }

@@ -2,7 +2,8 @@ package com.trustlink.trustlink.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.sql.ast.tree.expression.JsonTableColumnDefinition;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -24,6 +25,7 @@ public class RequestLog {
     @Enumerated(EnumType.STRING)
     private Decision decision;
     @Column (columnDefinition = "jsonb")
+    @JdbcTypeCode(SqlTypes.JSON)
     private String scoreBreakdown;
     private String payloadHash;
     private String userAgent;

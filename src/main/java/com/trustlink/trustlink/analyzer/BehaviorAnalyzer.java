@@ -28,7 +28,7 @@ public class BehaviorAnalyzer {
 
     private final ApiKeyRepository apiKeyRepository;
 
-    public int getRateDecduction(String ip){
+    public int getRateDeduction(String ip){
         Optional<RateTracker> rateTracker = rateTrackerRepository.findByIpAddress(ip);
         if(rateTracker.isPresent()){
             int requestCount = rateTracker.get().getRequestCount();
@@ -44,7 +44,7 @@ public class BehaviorAnalyzer {
         }
         return 0;
     }
-    public int getBlacklistDecduction(String ip){
+    public int getBlacklistDeduction(String ip){
         Optional<IPBlackList> blackList = ipBlackListRepository.findByIpAddress(ip);
         if(blackList.isPresent()) {
             return 20;
@@ -52,7 +52,7 @@ public class BehaviorAnalyzer {
             return 0;
         }
     }
-    public int getReputationDecduction(String ip){
+    public int getReputationDeduction(String ip){
         long flagged = requestLogRepository.countByIpAddressAndDecision(ip, Decision.FLAGGED);
         long blocked = requestLogRepository.countByIpAddressAndDecision(ip, Decision.BLOCKED);
         if(blocked >= 3){
@@ -69,7 +69,7 @@ public class BehaviorAnalyzer {
         }
         return 0;
     }
-    public int getProbingDecduction(String ip){
+    public int getProbingDeduction(String ip){
         Optional<RateTracker> rateTracker = rateTrackerRepository.findByIpAddress(ip);
         if(rateTracker.isPresent()){
             RateTracker tracker = rateTracker.get();
@@ -82,7 +82,7 @@ public class BehaviorAnalyzer {
         }
         return 0;
     }
-    public int getTimeAnomolyDecduction(String ip){
+    public int getTimeAnomolyDeduction(String ip){
         return 0;
     }
     public int getApiKeyBonus(HttpServletRequest request){
