@@ -28,11 +28,14 @@ public class TrustLinkFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        ContentCachingRequestWrapper requestWrapper = new ContentCachingRequestWrapper(request, 0);
 
-        String body = new String(requestWrapper.getContentAsByteArray());
+        byte[] bodyBytes = request.getInputStream().readAllBytes();
+        String body = new String(bodyBytes);
+        ContentCachingRequestWrapper requestWrapper = new ContentCachingRequestWrapper(request, 0);
+        System.out.println("BODY: " + body);
 
         ScoreResult result = trustScoreCalculator.trustScoreCalculator(requestWrapper, body);
+        request.setAttribute("scoreResult", result);
 
         Decision decision = decisionEngine.decide(result.score());
 
