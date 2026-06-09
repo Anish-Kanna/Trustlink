@@ -27,6 +27,12 @@ public class TrustLinkFilter extends OncePerRequestFilter {
     private final AuditLogger auditLogger;
 
     @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        String path = request.getRequestURI();
+        return path.startsWith("/api/v1/blacklist");
+    }
+
+    @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         byte[] bodyBytes = request.getInputStream().readAllBytes();

@@ -4,6 +4,7 @@ import com.trustlink.trustlink.model.Decision;
 import com.trustlink.trustlink.model.RequestLog;
 import com.trustlink.trustlink.repository.RequestLogRepository;
 import com.trustlink.trustlink.scoring.ScoreResult;
+import com.trustlink.trustlink.service.AutoBlackListService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,8 @@ public class AuditLogger {
     private final RequestLogRepository requestLogRepository;
 
     private final ObjectMapper objectMapper;
+
+    private final AutoBlackListService autoBlackListService;
 
     public void log(HttpServletRequest request, ScoreResult score, Decision decision) {
         String breakdownJson;
@@ -40,5 +43,7 @@ public class AuditLogger {
                 .outcome(null)
                 .build();
         requestLogRepository.save(requestLog);
+
+        autoBlackListService.checkAndBlackList(requestLog.getIpAddress());
     }
 }

@@ -17,5 +17,5 @@ public class IPBlackList {
     @Enumerated(EnumType.STRING)
     private BlacklistSource source;
     private LocalDateTime createdAt;
-    private LocalDateTime ExpiresAt;
+    private LocalDateTime expiresAt;
 }

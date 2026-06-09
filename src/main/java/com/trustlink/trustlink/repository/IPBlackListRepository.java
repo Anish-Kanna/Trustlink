@@ -12,4 +12,6 @@ import java.util.UUID;
 public interface IPBlackListRepository extends JpaRepository<IPBlackList, UUID> {
     Optional<IPBlackList> findByIpAddress(String ip);
     List<IPBlackList> findByExpiresAtBefore(LocalDateTime now);
+    void deleteByExpiresAtBefore(LocalDateTime now);
+
 }
