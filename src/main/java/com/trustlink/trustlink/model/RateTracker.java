@@ -19,6 +19,9 @@ public class RateTracker {
     private String ipAddress;
     private LocalDateTime windowStart;
     private Integer requestCount;
+    public Integer getRequestCount() {
+        return requestCount;
+    }
     private Integer notFoundCount;
     private Integer blockedCount;
 }
